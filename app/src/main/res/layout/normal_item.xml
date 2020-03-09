@@ -10,11 +10,20 @@
         <TextView
             android:id="@+id/text"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="0dp"
             android:text="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/expand"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="expand"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

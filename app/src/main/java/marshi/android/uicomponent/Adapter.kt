@@ -1,14 +1,17 @@
 package marshi.android.uicomponent
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.normal_item.view.*
 import marshi.android.uicomponent.databinding.ExpandItemBinding
 import marshi.android.uicomponent.databinding.NormalItemBinding
 import java.lang.IllegalArgumentException
 
-class Adapter(val list: MutableList<Item>) : RecyclerView.Adapter<VH>() {
+class Adapter(val context: Context, val list: MutableList<Item>) : RecyclerView.Adapter<VH>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val inflater = LayoutInflater.from(parent.context)
         val binding = when (viewType) {
@@ -17,11 +20,6 @@ class Adapter(val list: MutableList<Item>) : RecyclerView.Adapter<VH>() {
             else -> throw IllegalArgumentException()
         }
         return VH(binding)
-    }
-
-    private fun add(item: Item) {
-        list.add(item)
-        notifyItemInserted(list.size - 1)
     }
 
     private fun add(item: Item, position: Int) {
@@ -43,6 +41,9 @@ class Adapter(val list: MutableList<Item>) : RecyclerView.Adapter<VH>() {
         if (holder.binding is NormalItemBinding) {
             holder.binding.text.text = item.text
         }
+        val expandView = itemView.expand
+        val originalHeight = expandView.height
+        val expandAnim = ResizeAnimation(expandView, 40.px(context), 0)
         itemView.setOnClickListener {
             val itemPosition = list.indexOf(item)
             if (itemView.elevation == 0f) {
@@ -53,11 +54,14 @@ class Adapter(val list: MutableList<Item>) : RecyclerView.Adapter<VH>() {
             val normalItem = item as? NormalItem
             if (normalItem?.isOpened == true) {
                 normalItem.isOpened = false
-                val expandItem = list[itemPosition + 1] as ExpandItem
-                remove(expandItem, itemPosition + 1)
+//                val expandItem = list[itemPosition + 1] as ExpandItem
+//                remove(expandItem, itemPosition + 1)
+                val collapseAnim = ResizeAnimation(expandView, (-40).px(context), expandView.measuredHeight)
+                expandView.startAnimation(collapseAnim)
             } else {
                 normalItem?.isOpened = true
-                add(ExpandItem(itemPosition + 1), itemPosition + 1)
+                expandView.startAnimation(expandAnim)
+//                add(ExpandItem(itemPosition + 1), itemPosition + 1)
             }
         }
     }
