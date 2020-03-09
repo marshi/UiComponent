@@ -2,13 +2,13 @@ package marshi.android.uicomponent
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationSet
+import android.view.animation.AlphaAnimation
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.normal_item.view.*
 import marshi.android.uicomponent.databinding.NormalItemBinding
-import java.lang.IllegalArgumentException
 
 class Adapter(val context: Context, val list: MutableList<Item>) : RecyclerView.Adapter<VH>() {
 
@@ -32,17 +32,19 @@ class Adapter(val context: Context, val list: MutableList<Item>) : RecyclerView.
             onEnd = { item.isAnimating = false }
         )
         val expandView = itemView.expand
-        val originalHeight = expandView.height
         val expandAnim = ResizeAnimation(expandView, 40.px(context), 0).apply {
             setAnimationListener(animationListener)
         }
-        val upElevationAnimation = ElevationAnimation(itemView, 20.px(context), 0).apply {
-            setAnimationListener(animationListener)
+        val fadeInAnimation = AlphaAnimation(0.0f, 1.0f).apply {
+            duration = 300
+            fillAfter = true
         }
-        val downElevationAnimation =
-            ElevationAnimation(itemView, (-20).px(context), 20.px(context)).apply {
-                setAnimationListener(animationListener)
-            }
+        val fadeOutAnimation = AlphaAnimation(1.0f, 0f).apply {
+            duration = 300
+            fillAfter = true
+        }
+        val upElevationAnimation = ElevationAnimation(itemView, 20.px(context), 0)
+        val downElevationAnimation = ElevationAnimation(itemView, (-20).px(context), 20.px(context))
         itemView.setOnClickListener {
             if (item.isAnimating) {
                 return@setOnClickListener
@@ -57,10 +59,13 @@ class Adapter(val context: Context, val list: MutableList<Item>) : RecyclerView.
                 ).apply {
                     setAnimationListener(animationListener)
                 }
+                itemView.divider.startAnimation(fadeOutAnimation)
                 expandView.startAnimation(collapseAnim)
                 itemView.startAnimation(downElevationAnimation)
             } else {
                 normalItem?.isOpened = true
+                itemView.divider.startAnimation(fadeInAnimation)
+                itemView.divider.visibility = View.VISIBLE
                 expandView.startAnimation(expandAnim)
                 itemView.startAnimation(upElevationAnimation)
             }
