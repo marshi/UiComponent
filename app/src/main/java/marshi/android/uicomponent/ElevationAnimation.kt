@@ -4,10 +4,10 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.Transformation
 
-class ResizeAnimation(
+class ElevationAnimation(
     private val view: View,
-    private val addHeight: Int,
-    private val startHeight: Int
+    private val addElevation: Int,
+    private val startElevation: Int
 ) : Animation() {
 
     init {
@@ -18,9 +18,8 @@ class ResizeAnimation(
         interpolatedTime: Float,
         t: Transformation?
     ) {
-        val newHeight = (startHeight + addHeight * interpolatedTime)
-        view.layoutParams.height = newHeight.toInt()
-        view.requestLayout()
+        val newElevation = (startElevation + addElevation * interpolatedTime)
+        view.elevation = newElevation
     }
 
     override fun willChangeBounds(): Boolean {
