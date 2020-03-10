@@ -4,8 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
-import androidx.databinding.ViewDataBinding
+import android.view.animation.Animation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -14,13 +13,14 @@ import kotlinx.android.synthetic.main.normal_item.view.*
 import marshi.android.uicomponent.databinding.NormalItemBinding
 
 class Adapter(
-  private val context: Context,
+  context: Context,
   private val lifecycleOwner: LifecycleOwner,
   private val list: MutableList<NormalItem>
 ) : RecyclerView.Adapter<VH>() {
 
   private val clickPositionLiveData = MutableLiveData<Int>()
   private val animatingState = AnimatingState()
+  private val animationFactory = AnimationFactory(animatingState)
   private val expandHeight = context.resources.getDimension(R.dimen.expand_height)
   private val itemElevation = context.resources.getDimension(R.dimen.item_elevation)
   private val animationDuration = AnimationDuration.value
@@ -36,59 +36,24 @@ class Adapter(
   override fun onBindViewHolder(holder: VH, position: Int) {
     val itemView = holder.itemView
     val item = list[position]
-    if (holder.binding is NormalItemBinding) {
-      holder.binding.text.text = item.text
-    }
-    val animationListener: (AnimationType) -> AnimationListener = { type ->
-      AnimationListener(
-        onStart = {
-          animatingState.onStart(type)
-        },
-        onEnd = {
-          animatingState.onEnd(type)
-        }
-      )
-    }
     val expandView = itemView.expand
-    val expandAnim = ResizeAnimation(expandView, expandHeight, 0f).apply {
-      setAnimationListener(animationListener(AnimationType.Expand))
-    }
-    val fadeInAnimation = AlphaAnimation(0.0f, 1.0f).apply {
-      duration = animationDuration
-      fillAfter = true
-      setAnimationListener(animationListener(AnimationType.ShowDivider))
-    }
-    val fadeOutAnimation = AlphaAnimation(1.0f, 0f).apply {
-      duration = animationDuration
-      fillAfter = true
-      setAnimationListener(animationListener(AnimationType.HideDivider))
-    }
-    val upElevationAnimation = ElevationAnimation(itemView, itemElevation, 0f).apply {
-      setAnimationListener(animationListener(AnimationType.UpElevation))
-    }
-    val downElevationAnimation =
-      ElevationAnimation(itemView, -itemElevation, itemElevation).apply {
-        setAnimationListener(animationListener(AnimationType.DownElevation))
-      }
-    val collapseAnim = ResizeAnimation(
-      expandView,
-      -expandHeight,
-      expandHeight
-    ).apply {
-      setAnimationListener(animationListener(AnimationType.Collapse))
-    }
+    val expandAnim = animationFactory.expandAnim(expandView, expandHeight)
+    val fadeInAnim = animationFactory.fadeInAnim(animationDuration)
+    val fadeOutAnim = animationFactory.fadeOutAnim(animationDuration)
+    val upElevationAnim =
+      animationFactory.upElevationAnim(itemView, itemElevation)
+    val downElevationAnim =
+      animationFactory.downElevationAnim(itemView, itemElevation)
+    val collapseAnim = animationFactory.collapseAnim(expandView, expandHeight)
+    holder.binding.text.text = item.text
+
     clickPositionLiveData.observe(lifecycleOwner, Observer { clickPosition ->
       if (!item.isOpened && position == clickPosition) {
         item.isOpened = true
-        itemView.divider.startAnimation(fadeInAnimation)
-        itemView.divider.visibility = View.VISIBLE
-        expandView.startAnimation(expandAnim)
-        itemView.startAnimation(upElevationAnimation)
+        expand(itemView, expandAnim, fadeInAnim, upElevationAnim)
       } else if (item.isOpened) {
         item.isOpened = false
-        itemView.divider.startAnimation(fadeOutAnimation)
-        expandView.startAnimation(collapseAnim)
-        itemView.startAnimation(downElevationAnimation)
+        collapse(itemView, collapseAnim, fadeOutAnim, downElevationAnim)
       }
     })
     itemView.setOnClickListener {
@@ -98,6 +63,29 @@ class Adapter(
       clickPositionLiveData.value = position
     }
   }
+
+  private fun expand(
+    itemView: View,
+    expandAnim: Animation,
+    fadeInAnim: Animation,
+    upElevationAnim: Animation
+  ) {
+    itemView.divider.startAnimation(fadeInAnim)
+    itemView.divider.visibility = View.VISIBLE
+    itemView.expand.startAnimation(expandAnim)
+    itemView.startAnimation(upElevationAnim)
+  }
+
+  private fun collapse(
+    itemView: View,
+    collapseAnim: Animation,
+    fadeOutAnim: Animation,
+    downElevationAnim: Animation
+  ) {
+    itemView.divider.startAnimation(fadeOutAnim)
+    itemView.expand.startAnimation(collapseAnim)
+    itemView.startAnimation(downElevationAnim)
+  }
 }
 
-class VH(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
+class VH(val binding: NormalItemBinding) : RecyclerView.ViewHolder(binding.root)
