@@ -1,7 +1,7 @@
 package marshi.android.uicomponent
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import marshi.android.uicomponent.databinding.ActivityMainBinding
 
@@ -11,6 +11,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.recyclerView.adapter = Adapter(this, mutableListOf(NormalItem(), NormalItem(), NormalItem(), NormalItem()))
+        binding.recyclerView.adapter = Adapter(
+            this,
+            this,
+            mutableListOf(NormalItem(), NormalItem(), NormalItem(), NormalItem())
+        )
     }
 }

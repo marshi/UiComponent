@@ -8,11 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.normal_item.view.*
 import marshi.android.uicomponent.databinding.NormalItemBinding
 
-class Adapter(val context: Context, val list: MutableList<Item>) : RecyclerView.Adapter<VH>() {
+class Adapter(
+    val context: Context,
+    val lifecycleOwner: LifecycleOwner,
+    val list: MutableList<Item>
+) : RecyclerView.Adapter<VH>() {
+
+    private val clickPositionLiveData = MutableLiveData<Int>()
+    private var isAnimating = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val inflater = LayoutInflater.from(parent.context)
@@ -30,8 +40,8 @@ class Adapter(val context: Context, val list: MutableList<Item>) : RecyclerView.
             holder.binding.text.text = item.text
         }
         val animationListener = AnimationListener(
-            onStart = { item.isAnimating = true },
-            onEnd = { item.isAnimating = false }
+            onStart = { isAnimating = true },
+            onEnd = { isAnimating = false }
         )
         val expandView = itemView.expand
         val expandAnim = ResizeAnimation(expandView, 40.px(context), 0).apply {
@@ -47,16 +57,18 @@ class Adapter(val context: Context, val list: MutableList<Item>) : RecyclerView.
         }
         val upElevationAnimation = ElevationAnimation(itemView, 20.px(context), 0)
         val downElevationAnimation = ElevationAnimation(itemView, (-20).px(context), 20.px(context))
-        itemView.setOnClickListener {
-            if (item.isAnimating) {
-                return@setOnClickListener
-            }
-            val normalItem = item as? NormalItem
-            if (normalItem?.isOpened == true) {
+
+        clickPositionLiveData.observe(lifecycleOwner, Observer { clickPosition ->
+            if (!item.isOpened && position == clickPosition) {
                 val transition = itemView.background as RippleDrawable
                 val transitionDrawable = transition.getDrawable(0) as TransitionDrawable
-                transitionDrawable.reverseTransition(300)
-                normalItem.isOpened = false
+                transitionDrawable.startTransition(300)
+                item.isOpened = true
+                itemView.divider.startAnimation(fadeInAnimation)
+                itemView.divider.visibility = View.VISIBLE
+                expandView.startAnimation(expandAnim)
+                itemView.startAnimation(upElevationAnimation)
+            } else if (item.isOpened) {
                 val collapseAnim = ResizeAnimation(
                     expandView,
                     (-40).px(context),
@@ -64,23 +76,19 @@ class Adapter(val context: Context, val list: MutableList<Item>) : RecyclerView.
                 ).apply {
                     setAnimationListener(animationListener)
                 }
+                item.isOpened = false
                 itemView.divider.startAnimation(fadeOutAnimation)
                 expandView.startAnimation(collapseAnim)
                 itemView.startAnimation(downElevationAnimation)
-            } else {
-                val transition = itemView.background as RippleDrawable
-                val transitionDrawable = transition.getDrawable(0) as TransitionDrawable
-                transitionDrawable.startTransition(300)
-                normalItem?.isOpened = true
-                itemView.divider.startAnimation(fadeInAnimation)
-                itemView.divider.visibility = View.VISIBLE
-                expandView.startAnimation(expandAnim)
-                itemView.startAnimation(upElevationAnimation)
             }
+        })
+        itemView.setOnClickListener {
+            if (isAnimating) {
+                return@setOnClickListener
+            }
+            clickPositionLiveData.value = position
         }
     }
 }
 
-class VH(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
-
-}
+class VH(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
