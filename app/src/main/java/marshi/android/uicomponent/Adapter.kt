@@ -1,6 +1,7 @@
 package marshi.android.uicomponent
 
 import android.content.Context
+import android.graphics.drawable.RippleDrawable
 import android.graphics.drawable.TransitionDrawable
 import android.view.LayoutInflater
 import android.view.View
@@ -52,8 +53,9 @@ class Adapter(val context: Context, val list: MutableList<Item>) : RecyclerView.
             }
             val normalItem = item as? NormalItem
             if (normalItem?.isOpened == true) {
-                val transition = itemView.background as TransitionDrawable
-                transition.reverseTransition(300)
+                val transition = itemView.background as RippleDrawable
+                val transitionDrawable = transition.getDrawable(0) as TransitionDrawable
+                transitionDrawable.reverseTransition(300)
                 normalItem.isOpened = false
                 val collapseAnim = ResizeAnimation(
                     expandView,
@@ -66,8 +68,9 @@ class Adapter(val context: Context, val list: MutableList<Item>) : RecyclerView.
                 expandView.startAnimation(collapseAnim)
                 itemView.startAnimation(downElevationAnimation)
             } else {
-                val transition = itemView.background as TransitionDrawable
-                transition.startTransition(300)
+                val transition = itemView.background as RippleDrawable
+                val transitionDrawable = transition.getDrawable(0) as TransitionDrawable
+                transitionDrawable.startTransition(300)
                 normalItem?.isOpened = true
                 itemView.divider.startAnimation(fadeInAnimation)
                 itemView.divider.visibility = View.VISIBLE

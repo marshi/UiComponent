@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<transition xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/item_background"/>
-    <item android:drawable="@drawable/item_background_border"/>
-</transition>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/black">
+    <item android:id="@+id/transition">
+        <transition>
+            <item android:drawable="@drawable/item_background" />
+            <item android:drawable="@drawable/item_background_border" />
+        </transition>
+    </item>
+</ripple>
