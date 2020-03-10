@@ -42,24 +42,10 @@ class Adapter(
     val animationListener: (AnimationType) -> AnimationListener = { type ->
       AnimationListener(
         onStart = {
-          when (type) {
-            AnimationType.Expand -> animatingState.isExpandAnimating = true
-            AnimationType.Collapse -> animatingState.isCollapseAnimating = true
-            AnimationType.ShowDivider -> animatingState.isDividerAnimating = true
-            AnimationType.HideDivider -> animatingState.isHideDividerAnimating = true
-            AnimationType.UpElevation -> animatingState.isElevationAnimating = true
-            AnimationType.DownElevation -> animatingState.isDownElevationAnimating = true
-          }
+          animatingState.onStart(type)
         },
         onEnd = {
-          when (type) {
-            AnimationType.Expand -> animatingState.isExpandAnimating = false
-            AnimationType.Collapse -> animatingState.isCollapseAnimating = false
-            AnimationType.ShowDivider -> animatingState.isDividerAnimating = false
-            AnimationType.HideDivider -> animatingState.isHideDividerAnimating = false
-            AnimationType.UpElevation -> animatingState.isElevationAnimating = false
-            AnimationType.DownElevation -> animatingState.isDownElevationAnimating = false
-          }
+          animatingState.onEnd(type)
         }
       )
     }
