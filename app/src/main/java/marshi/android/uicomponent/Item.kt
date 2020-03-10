@@ -1,18 +1,18 @@
 package marshi.android.uicomponent
 
-sealed class Item
-
-class ExpandItem(id: Int) : Item()
-
 class NormalItem(
     val text: String = "text",
     var isOpened: Boolean = false
-) : Item()
+)
 
 class AnimatingState(
     var isExpandAnimating: Boolean = false,
     var isDividerAnimating: Boolean = false,
-    var isElevationAnimating: Boolean = false
+    var isElevationAnimating: Boolean = false,
+    var isCollapseAnimating: Boolean = false,
+    var isHideDividerAnimating: Boolean = false,
+    var isDownElevationAnimating: Boolean = false
 ) {
-    fun isAnimating() = isElevationAnimating || isDividerAnimating || isExpandAnimating
+    fun isEnableAnimating() = isElevationAnimating || isDividerAnimating || isExpandAnimating
+    fun isDisableAnimating() = isDownElevationAnimating|| isHideDividerAnimating|| isCollapseAnimating
 }
