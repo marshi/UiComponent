@@ -21,6 +21,9 @@ class Adapter(
 
   private val clickPositionLiveData = MutableLiveData<Int>()
   private val animatingState = AnimatingState()
+  private val expandHeight = context.resources.getDimension(R.dimen.expand_height)
+  private val itemElevation = context.resources.getDimension(R.dimen.item_elevation)
+  private val animationDuration = AnimationDuration.value
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
     val inflater = LayoutInflater.from(parent.context)
@@ -61,26 +64,33 @@ class Adapter(
       )
     }
     val expandView = itemView.expand
-    val expandAnim = ResizeAnimation(expandView, 40.px(context), 0).apply {
+    val expandAnim = ResizeAnimation(expandView, expandHeight, 0f).apply {
       setAnimationListener(animationListener(AnimationType.Expand))
     }
     val fadeInAnimation = AlphaAnimation(0.0f, 1.0f).apply {
-      duration = 300
+      duration = animationDuration
       fillAfter = true
       setAnimationListener(animationListener(AnimationType.ShowDivider))
     }
     val fadeOutAnimation = AlphaAnimation(1.0f, 0f).apply {
-      duration = 300
+      duration = animationDuration
       fillAfter = true
       setAnimationListener(animationListener(AnimationType.HideDivider))
     }
-    val upElevationAnimation = ElevationAnimation(itemView, 20.px(context), 0).apply {
+    val upElevationAnimation = ElevationAnimation(itemView, itemElevation, 0f).apply {
       setAnimationListener(animationListener(AnimationType.UpElevation))
     }
     val downElevationAnimation =
-      ElevationAnimation(itemView, (-20).px(context), 20.px(context)).apply {
+      ElevationAnimation(itemView, -itemElevation, itemElevation).apply {
         setAnimationListener(animationListener(AnimationType.DownElevation))
       }
+    val collapseAnim = ResizeAnimation(
+      expandView,
+      -expandHeight,
+      expandHeight
+    ).apply {
+      setAnimationListener(animationListener(AnimationType.Collapse))
+    }
     clickPositionLiveData.observe(lifecycleOwner, Observer { clickPosition ->
       if (!item.isOpened && position == clickPosition) {
         item.isOpened = true
@@ -89,14 +99,6 @@ class Adapter(
         expandView.startAnimation(expandAnim)
         itemView.startAnimation(upElevationAnimation)
       } else if (item.isOpened) {
-        println("height: ${expandView.measuredHeight} ${expandAnim.hasEnded()}")
-        val collapseAnim = ResizeAnimation(
-          expandView,
-          (-40).px(context),
-          40.px(context)
-        ).apply {
-          setAnimationListener(animationListener(AnimationType.Collapse))
-        }
         item.isOpened = false
         itemView.divider.startAnimation(fadeOutAnimation)
         expandView.startAnimation(collapseAnim)
