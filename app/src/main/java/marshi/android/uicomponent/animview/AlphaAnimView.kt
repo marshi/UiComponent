@@ -5,6 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.annotation.FloatRange
 import marshi.android.uicomponent.AnimationDuration
 import kotlin.math.max
 import kotlin.math.min
@@ -30,7 +31,7 @@ interface AlphaAnimView {
 }
 
 fun AlphaAnimView.animateRelatively(
-  alpha: Float,
+  @FloatRange(from = 0.0, to = 1.0) alpha: Float,
   animatorListener: Animator.AnimatorListener
 ) {
   val newHeight = min(max(0f, view.height + alpha), 1f)

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <marshi.android.uicomponent.customview.AnimatableConstraintLayout
+    <marshi.android.uicomponent.customview.ExpandableItemConstraintLayout
         android:id="@+id/root_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text" />
 
-        <marshi.android.uicomponent.customview.AnimatableConstraintLayout
+        <marshi.android.uicomponent.customview.ExpandPartConstraintLayout
             android:id="@+id/expand_constraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="expand" />
-        </marshi.android.uicomponent.customview.AnimatableConstraintLayout>
+        </marshi.android.uicomponent.customview.ExpandPartConstraintLayout>
 
-    </marshi.android.uicomponent.customview.AnimatableConstraintLayout>
+    </marshi.android.uicomponent.customview.ExpandableItemConstraintLayout>
 </layout>

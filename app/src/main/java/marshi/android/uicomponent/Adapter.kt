@@ -8,13 +8,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.normal_item.view.*
 import marshi.android.uicomponent.animview.AlphaAnimView
 import marshi.android.uicomponent.animview.ElevationAnimView
 import marshi.android.uicomponent.animview.HeightAnimView
 import marshi.android.uicomponent.animview.animateRelatively
 import marshi.android.uicomponent.customview.DividerView
-import marshi.android.uicomponent.databinding.NormalItemBinding
+import marshi.android.uicomponent.databinding.ExpandableItemViewBinding
 
 class Adapter(
   context: Context,
@@ -30,7 +29,7 @@ class Adapter(
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
     val inflater = LayoutInflater.from(parent.context)
-    val binding = NormalItemBinding.inflate(inflater, parent, false)
+    val binding = ExpandableItemViewBinding.inflate(inflater, parent, false)
     return VH(binding)
   }
 
@@ -75,7 +74,7 @@ class Adapter(
       1f,
       animationFactory.animatorListener(AnimationType.ShowDivider)
     )
-    dividerView.divider.visibility = View.VISIBLE
+    dividerView.visibility = View.VISIBLE
     heightAnimView.animateRelatively(
       expandHeight,
       animationFactory.animatorListener(AnimationType.Expand)
@@ -106,4 +105,4 @@ class Adapter(
   }
 }
 
-class VH(val binding: NormalItemBinding) : RecyclerView.ViewHolder(binding.root)
+class VH(val binding: ExpandableItemViewBinding) : RecyclerView.ViewHolder(binding.root)
