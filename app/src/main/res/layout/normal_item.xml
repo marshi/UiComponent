@@ -31,15 +31,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text" />
 
-        <TextView
-            android:id="@+id/expand"
+        <marshi.android.uicomponent.AnimatableConstraintLayout
+            android:id="@+id/expand_constraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="expand"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text"
-            tools:layout_height="40dp" />
+            tools:layout_height="40dp">
+
+            <TextView
+                android:id="@+id/expand"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="expand" />
+        </marshi.android.uicomponent.AnimatableConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,5 +1,6 @@
 package marshi.android.uicomponent
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -34,29 +35,31 @@ class Adapter(
   override fun getItemCount() = list.size
 
   override fun onBindViewHolder(holder: VH, position: Int) {
-    val itemView = holder.itemView
+    val itemView = holder.binding
     val item = list[position]
-    val expandView = itemView.expand
-    val expandAnim = animationFactory.expandAnim(expandView, expandHeight)
+    val expandView = itemView.expandConstraint
     val fadeInAnim = animationFactory.fadeInAnim(animationDuration)
     val fadeOutAnim = animationFactory.fadeOutAnim(animationDuration)
-    val upElevationAnim =
-      animationFactory.upElevationAnim(itemView, itemElevation)
-    val downElevationAnim =
-      animationFactory.downElevationAnim(itemView, itemElevation)
-    val collapseAnim = animationFactory.collapseAnim(expandView, expandHeight)
+    val upElevationAnim = animationFactory.upElevationAnim(itemView.root, itemElevation)
+    val downElevationAnim = animationFactory.downElevationAnim(itemView.root, itemElevation)
     holder.binding.text.text = item.text
+
+    val anim = ValueAnimator.ofInt(expandView.height, 100).apply {
+      addUpdateListener {
+
+      }
+    }
 
     clickPositionLiveData.observe(lifecycleOwner, Observer { clickPosition ->
       if (!item.isOpened && position == clickPosition) {
         item.isOpened = true
-        expand(itemView, expandAnim, fadeInAnim, upElevationAnim)
+        expand(itemView.root, itemView.expandConstraint, fadeInAnim, upElevationAnim)
       } else if (item.isOpened) {
         item.isOpened = false
-        collapse(itemView, collapseAnim, fadeOutAnim, downElevationAnim)
+        collapse(itemView.root, itemView.expandConstraint, fadeOutAnim, downElevationAnim)
       }
     })
-    itemView.setOnClickListener {
+    itemView.root.setOnClickListener {
       if (animatingState.isEnableAnimating() || animatingState.isDisableAnimating()) {
         return@setOnClickListener
       }
@@ -66,24 +69,26 @@ class Adapter(
 
   private fun expand(
     itemView: View,
-    expandAnim: Animation,
+    animatableConstraintLayout: HeightAnimView,
     fadeInAnim: Animation,
     upElevationAnim: Animation
   ) {
     itemView.divider.startAnimation(fadeInAnim)
     itemView.divider.visibility = View.VISIBLE
-    itemView.expand.startAnimation(expandAnim)
+//    itemView.expand.startAnimation(expandAnim)
+    animatableConstraintLayout.animateRelatively(expandHeight)
     itemView.startAnimation(upElevationAnim)
   }
 
   private fun collapse(
     itemView: View,
-    collapseAnim: Animation,
+    animatableConstraintLayout: HeightAnimView,
     fadeOutAnim: Animation,
     downElevationAnim: Animation
   ) {
     itemView.divider.startAnimation(fadeOutAnim)
-    itemView.expand.startAnimation(collapseAnim)
+    animatableConstraintLayout.animateAbsolutely(0f)
+//    itemView.expand.startAnimation(collapseAnim)
     itemView.startAnimation(downElevationAnim)
   }
 }

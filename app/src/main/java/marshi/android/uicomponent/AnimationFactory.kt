@@ -16,23 +16,23 @@ class AnimationFactory(private val animatingState: AnimatingState) {
     )
   }
 
-  fun expandAnim(
-    expandView: View,
-    expandHeight: Float
-  ) = ResizeAnimation(expandView, expandHeight, 0f).apply {
-    setAnimationListener(animationListener(AnimationType.Expand))
-  }
-
-  fun collapseAnim(
-    expandView: View,
-    expandHeight: Float
-  ) = ResizeAnimation(
-    expandView,
-    -expandHeight,
-    expandHeight
-  ).apply {
-    setAnimationListener(animationListener(AnimationType.Collapse))
-  }
+//  fun expandAnim(
+//    expandView: View,
+//    expandHeight: Float
+//  ) = ResizeAnimation(expandView, expandHeight, 0f).apply {
+//    setAnimationListener(animationListener(AnimationType.Expand))
+//  }
+//
+//  fun collapseAnim(
+//    expandView: View,
+//    expandHeight: Float
+//  ) = ResizeAnimation(
+//    expandView,
+//    -expandHeight,
+//    expandHeight
+//  ).apply {
+//    setAnimationListener(animationListener(AnimationType.Collapse))
+//  }
 
   fun fadeInAnim(
     animationDuration: Long
