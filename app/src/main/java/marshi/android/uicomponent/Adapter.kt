@@ -1,16 +1,19 @@
 package marshi.android.uicomponent
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.normal_item.view.*
+import marshi.android.uicomponent.animview.AlphaAnimView
+import marshi.android.uicomponent.animview.ElevationAnimView
+import marshi.android.uicomponent.animview.HeightAnimView
+import marshi.android.uicomponent.animview.animateRelatively
+import marshi.android.uicomponent.customview.DividerView
 import marshi.android.uicomponent.databinding.NormalItemBinding
 
 class Adapter(
@@ -21,10 +24,9 @@ class Adapter(
 
   private val clickPositionLiveData = MutableLiveData<Int>()
   private val animatingState = AnimatingState()
-  private val animationFactory = AnimationFactory(animatingState)
+  private val animationFactory = AnimatorListenerFactory(animatingState)
   private val expandHeight = context.resources.getDimension(R.dimen.expand_height)
   private val itemElevation = context.resources.getDimension(R.dimen.item_elevation)
-  private val animationDuration = AnimationDuration.value
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
     val inflater = LayoutInflater.from(parent.context)
@@ -37,35 +39,22 @@ class Adapter(
   override fun onBindViewHolder(holder: VH, position: Int) {
     val itemView = holder.binding
     val item = list[position]
-    val expandView = itemView.expandConstraint
-    val fadeInAnim = animationFactory.fadeInAnim(animationDuration)
-    val fadeOutAnim = animationFactory.fadeOutAnim(animationDuration)
-//    val upElevationAnim = animationFactory.upElevationAnim(itemView.root, itemElevation)
-//    val downElevationAnim = animationFactory.downElevationAnim(itemView.root, itemElevation)
     holder.binding.text.text = item.text
-
-    val anim = ValueAnimator.ofInt(expandView.height, 100).apply {
-      addUpdateListener {
-
-      }
-    }
 
     clickPositionLiveData.observe(lifecycleOwner, Observer { clickPosition ->
       if (!item.isOpened && position == clickPosition) {
         item.isOpened = true
         expand(
-          itemView.root,
+          itemView.divider,
           itemView.expandConstraint,
-          itemView.rootView,
-          fadeInAnim
+          itemView.rootView
         )
       } else if (item.isOpened) {
         item.isOpened = false
         collapse(
-          itemView.root,
+          itemView.divider,
           itemView.expandConstraint,
-          itemView.rootView,
-          fadeOutAnim
+          itemView.rootView
         )
       }
     })
@@ -78,26 +67,42 @@ class Adapter(
   }
 
   private fun expand(
-    itemView: View,
-    animatableConstraintLayout: HeightAnimView,
-    elevationConstraintLayout: ElevationAnimView,
-    fadeInAnim: Animation
+    dividerView: DividerView,
+    heightAnimView: HeightAnimView,
+    elevationAnimView: ElevationAnimView
   ) {
-    itemView.divider.startAnimation(fadeInAnim)
-    itemView.divider.visibility = View.VISIBLE
-    animatableConstraintLayout.animateRelatively(expandHeight)
-    elevationConstraintLayout.animateAbsolutely(itemElevation)
+    dividerView.animate(
+      1f,
+      animationFactory.animatorListener(AnimationType.ShowDivider)
+    )
+    dividerView.divider.visibility = View.VISIBLE
+    heightAnimView.animateRelatively(
+      expandHeight,
+      animationFactory.animatorListener(AnimationType.Expand)
+    )
+    elevationAnimView.animateAbsolutely(
+      itemElevation,
+      animationFactory.animatorListener(AnimationType.UpElevation)
+    )
   }
 
   private fun collapse(
-    itemView: View,
+    itemView: AlphaAnimView,
     animatableConstraintLayout: HeightAnimView,
-    elevationConstraintLayout: ElevationAnimView,
-    fadeOutAnim: Animation
+    elevationConstraintLayout: ElevationAnimView
   ) {
-    itemView.divider.startAnimation(fadeOutAnim)
-    animatableConstraintLayout.animateAbsolutely(0f)
-    elevationConstraintLayout.animateAbsolutely(0f)
+    itemView.animate(
+      0f,
+      animationFactory.animatorListener(AnimationType.HideDivider)
+    )
+    animatableConstraintLayout.animateAbsolutely(
+      0,
+      animationFactory.animatorListener(AnimationType.Collapse)
+    )
+    elevationConstraintLayout.animateAbsolutely(
+      0f,
+      animationFactory.animatorListener(AnimationType.DownElevation)
+    )
   }
 }
 

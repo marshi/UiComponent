@@ -1,20 +1,23 @@
-package marshi.android.uicomponent
+package marshi.android.uicomponent.animview
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import marshi.android.uicomponent.AnimationDuration
 
 interface HeightAnimView {
   val view: View
 
-  fun animate(height: Int) {
+  fun animateAbsolutely(height: Int, animatorListener: Animator.AnimatorListener) {
     val animator = ValueAnimator.ofInt(view.height, height).apply {
       duration = AnimationDuration.value
       addUpdateListener {
         view.layoutParams.height = it.animatedValue as Int
         view.requestLayout()
       }
+      addListener(animatorListener)
     }
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
@@ -24,15 +27,9 @@ interface HeightAnimView {
 }
 
 fun HeightAnimView.animateRelatively(
-  height: Float
+  height: Float,
+  animatorListener: Animator.AnimatorListener
 ) {
   val newHeight = (view.height + height).toInt()
-  animate(newHeight)
-}
-
-fun HeightAnimView.animateAbsolutely(
-  height: Float
-) {
-  val newHeight = height.toInt()
-  animate(newHeight)
+  animateAbsolutely(newHeight, animatorListener)
 }
