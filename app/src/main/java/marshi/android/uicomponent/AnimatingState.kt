@@ -13,20 +13,19 @@ class AnimatingState(
     isDownElevationAnimating || isHideDividerAnimating || isCollapseAnimating
 
   fun onStart(type: AnimationType) = when (type) {
-    AnimationType.Expand -> isExpandAnimating = true
-    AnimationType.Collapse -> isCollapseAnimating = true
+//    AnimationType.Expand -> isExpandAnimating = true
+//    AnimationType.Collapse -> isCollapseAnimating = true
     AnimationType.ShowDivider -> isDividerAnimating = true
     AnimationType.HideDivider -> isHideDividerAnimating = true
-    AnimationType.UpElevation -> isElevationAnimating = true
-    AnimationType.DownElevation -> isDownElevationAnimating = true
+//    AnimationType.UpElevation -> isDownElevationAnimating = true
   }
 
   fun onEnd(type: AnimationType) = when (type) {
-    AnimationType.Expand -> isExpandAnimating = false
-    AnimationType.Collapse -> isCollapseAnimating = false
+//    AnimationType.Expand -> isExpandAnimating = false
+//    AnimationType.Collapse -> isCollapseAnimating = false
     AnimationType.ShowDivider -> isDividerAnimating = false
     AnimationType.HideDivider -> isHideDividerAnimating = false
-    AnimationType.UpElevation -> isElevationAnimating = false
-    AnimationType.DownElevation -> isDownElevationAnimating = false
+//    AnimationType.UpElevation -> isElevationAnimating = false
+//    AnimationType.DownElevation -> isDownElevationAnimating = false
   }
 }

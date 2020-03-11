@@ -1,6 +1,5 @@
 package marshi.android.uicomponent
 
-import android.view.View
 import android.view.animation.AlphaAnimation
 
 class AnimationFactory(private val animatingState: AnimatingState) {
@@ -50,18 +49,18 @@ class AnimationFactory(private val animatingState: AnimatingState) {
     setAnimationListener(animationListener(AnimationType.HideDivider))
   }
 
-  fun upElevationAnim(
-    itemView: View,
-    elevation: Float
-  ) = ElevationAnimation(itemView, elevation, 0f).apply {
-    setAnimationListener(animationListener(AnimationType.UpElevation))
-  }
+//  fun upElevationAnim(
+//    itemView: View,
+//    elevation: Float
+//  ) = ElevationAnimation(itemView, elevation, 0f).apply {
+//    setAnimationListener(animationListener(AnimationType.UpElevation))
+//  }
 
-  fun downElevationAnim(
-    itemView: View,
-    elevation: Float
-  ) =
-    ElevationAnimation(itemView, -elevation, elevation).apply {
-      setAnimationListener(animationListener(AnimationType.DownElevation))
-    }
+//  fun downElevationAnim(
+//    itemView: View,
+//    elevation: Float
+//  ) =
+//    ElevationAnimation(itemView, -elevation, elevation).apply {
+//      setAnimationListener(animationListener(AnimationType.DownElevation))
+//    }
 }

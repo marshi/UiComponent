@@ -40,8 +40,8 @@ class Adapter(
     val expandView = itemView.expandConstraint
     val fadeInAnim = animationFactory.fadeInAnim(animationDuration)
     val fadeOutAnim = animationFactory.fadeOutAnim(animationDuration)
-    val upElevationAnim = animationFactory.upElevationAnim(itemView.root, itemElevation)
-    val downElevationAnim = animationFactory.downElevationAnim(itemView.root, itemElevation)
+//    val upElevationAnim = animationFactory.upElevationAnim(itemView.root, itemElevation)
+//    val downElevationAnim = animationFactory.downElevationAnim(itemView.root, itemElevation)
     holder.binding.text.text = item.text
 
     val anim = ValueAnimator.ofInt(expandView.height, 100).apply {
@@ -53,10 +53,20 @@ class Adapter(
     clickPositionLiveData.observe(lifecycleOwner, Observer { clickPosition ->
       if (!item.isOpened && position == clickPosition) {
         item.isOpened = true
-        expand(itemView.root, itemView.expandConstraint, fadeInAnim, upElevationAnim)
+        expand(
+          itemView.root,
+          itemView.expandConstraint,
+          itemView.rootView,
+          fadeInAnim
+        )
       } else if (item.isOpened) {
         item.isOpened = false
-        collapse(itemView.root, itemView.expandConstraint, fadeOutAnim, downElevationAnim)
+        collapse(
+          itemView.root,
+          itemView.expandConstraint,
+          itemView.rootView,
+          fadeOutAnim
+        )
       }
     })
     itemView.root.setOnClickListener {
@@ -70,26 +80,24 @@ class Adapter(
   private fun expand(
     itemView: View,
     animatableConstraintLayout: HeightAnimView,
-    fadeInAnim: Animation,
-    upElevationAnim: Animation
+    elevationConstraintLayout: ElevationAnimView,
+    fadeInAnim: Animation
   ) {
     itemView.divider.startAnimation(fadeInAnim)
     itemView.divider.visibility = View.VISIBLE
-//    itemView.expand.startAnimation(expandAnim)
     animatableConstraintLayout.animateRelatively(expandHeight)
-    itemView.startAnimation(upElevationAnim)
+    elevationConstraintLayout.animateAbsolutely(itemElevation)
   }
 
   private fun collapse(
     itemView: View,
     animatableConstraintLayout: HeightAnimView,
-    fadeOutAnim: Animation,
-    downElevationAnim: Animation
+    elevationConstraintLayout: ElevationAnimView,
+    fadeOutAnim: Animation
   ) {
     itemView.divider.startAnimation(fadeOutAnim)
     animatableConstraintLayout.animateAbsolutely(0f)
-//    itemView.expand.startAnimation(collapseAnim)
-    itemView.startAnimation(downElevationAnim)
+    elevationConstraintLayout.animateAbsolutely(0f)
   }
 }
 

@@ -1,10 +1,10 @@
 package marshi.android.uicomponent
 
 enum class AnimationType {
-    UpElevation,
-    Expand,
+//    UpElevation,
+//    Expand,
     ShowDivider,
-    DownElevation,
-    Collapse,
+//    DownElevation,
+//    Collapse,
     HideDivider
 }
