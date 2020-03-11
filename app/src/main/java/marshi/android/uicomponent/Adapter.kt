@@ -8,11 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import marshi.android.uicomponent.animview.AlphaAnimView
-import marshi.android.uicomponent.animview.ElevationAnimView
-import marshi.android.uicomponent.animview.HeightAnimView
 import marshi.android.uicomponent.animview.animateRelatively
-import marshi.android.uicomponent.customview.DividerView
 import marshi.android.uicomponent.databinding.ExpandableItemViewBinding
 
 class Adapter(
@@ -43,18 +39,10 @@ class Adapter(
     clickPositionLiveData.observe(lifecycleOwner, Observer { clickPosition ->
       if (!item.isOpened && position == clickPosition) {
         item.isOpened = true
-        expand(
-          itemView.divider,
-          itemView.expandConstraint,
-          itemView.rootView
-        )
+        expand(itemView)
       } else if (item.isOpened) {
         item.isOpened = false
-        collapse(
-          itemView.divider,
-          itemView.expandConstraint,
-          itemView.rootView
-        )
+        collapse(itemView)
       }
     })
     itemView.root.setOnClickListener {
@@ -65,40 +53,34 @@ class Adapter(
     }
   }
 
-  private fun expand(
-    dividerView: DividerView,
-    heightAnimView: HeightAnimView,
-    elevationAnimView: ElevationAnimView
-  ) {
-    dividerView.animate(
+  private fun expand(binding: ExpandableItemViewBinding) {
+    binding.divider.animate(
       1f,
       animationFactory.animatorListener(AnimationType.ShowDivider)
     )
-    dividerView.visibility = View.VISIBLE
-    heightAnimView.animateRelatively(
+    binding.divider.visibility = View.VISIBLE
+    binding.rootView.animateRelatively(
       expandHeight,
       animationFactory.animatorListener(AnimationType.Expand)
     )
-    elevationAnimView.animateAbsolutely(
-      itemElevation,
+    binding.expandConstraint.animateAbsolutely(
+      itemElevation.toInt(),
       animationFactory.animatorListener(AnimationType.UpElevation)
     )
   }
 
   private fun collapse(
-    itemView: AlphaAnimView,
-    animatableConstraintLayout: HeightAnimView,
-    elevationConstraintLayout: ElevationAnimView
+    binding: ExpandableItemViewBinding
   ) {
-    itemView.animate(
+    binding.divider.animate(
       0f,
       animationFactory.animatorListener(AnimationType.HideDivider)
     )
-    animatableConstraintLayout.animateAbsolutely(
+    binding.expandConstraint.animateAbsolutely(
       0,
       animationFactory.animatorListener(AnimationType.Collapse)
     )
-    elevationConstraintLayout.animateAbsolutely(
+    binding.rootView.animateAbsolutely(
       0f,
       animationFactory.animatorListener(AnimationType.DownElevation)
     )
