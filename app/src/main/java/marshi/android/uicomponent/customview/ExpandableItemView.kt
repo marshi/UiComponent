@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.withStyledAttributes
 import androidx.core.view.children
 import marshi.android.uicomponent.R
 import marshi.android.uicomponent.animview.ElevationAnimView
@@ -19,11 +20,12 @@ class ExpandableItemView @JvmOverloads constructor(
   defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr), ElevationAnimView {
   private val expandHeight = context.resources.getDimension(R.dimen.expand_height)
-  private val itemElevation = context.resources.getDimension(R.dimen.item_elevation)
+//  private val itemElevation = context.resources.getDimension(R.dimen.item_elevation)
 
   override val view
     get() = this
 
+  private var elevationTo: Float = 0f
   private val binding by lazy { ExpandableItemViewBinding.bind(this) }
   private val expandPartView by lazy {
     val expandPartViews = binding.rootView
@@ -35,12 +37,18 @@ class ExpandableItemView @JvmOverloads constructor(
     expandPartViews.first()
   }
 
+  init {
+    context.withStyledAttributes(attrs, R.styleable.ExpandableItemView, defStyleAttr, 0) {
+      elevationTo = getDimension(R.styleable.ExpandableItemView_elevationTo, 0f)
+    }
+  }
+
   fun expand(animatorListener: Animator.AnimatorListener? = null) {
     val divider = binding.divider
     val dividerShowAnimator = divider.absolutelyAnimator(1f)
     divider.visibility = View.VISIBLE
     val expandAnimator = expandPartView.relativelyAnimator(expandHeight)
-    val elevationUpAnimator = relativelyAnimator(itemElevation)
+    val elevationUpAnimator = relativelyAnimator(elevationTo)
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
       playTogether(dividerShowAnimator, expandAnimator, elevationUpAnimator)
