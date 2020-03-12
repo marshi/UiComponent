@@ -30,7 +30,7 @@ class ExpandableItemView @JvmOverloads constructor(
       .children
       .filterIsInstance(ExpandPartView::class.java).toList()
     if (expandPartViews.size != 1) {
-      throw IllegalStateException()
+      throw IllegalStateException("ExpandPartView must equals to 1.")
     }
     expandPartViews.first()
   }
@@ -39,7 +39,7 @@ class ExpandableItemView @JvmOverloads constructor(
       .children
       .filterIsInstance(DividerView::class.java).toList()
     if (1 < dividerViews.size) {
-      throw IllegalStateException()
+      throw IllegalStateException("DividerView must be less equals than 1.")
     }
     dividerViews.firstOrNull()
   }
