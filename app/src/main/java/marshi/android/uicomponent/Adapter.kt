@@ -28,7 +28,6 @@ class Adapter(
   override fun onBindViewHolder(holder: VH, position: Int) {
     val itemView = holder.view
     val item = list[position]
-//    holder.binding.text.text = item.text
 
     clickPositionLiveData.observe(lifecycleOwner, Observer { clickPosition ->
       if (!item.isOpened && position == clickPosition) {
