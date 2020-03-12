@@ -3,4 +3,8 @@
     <declare-styleable name="ExpandableItemView">
         <attr name="elevationTo" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="ExpandPartView">
+        <attr name="expand_height" format="dimension" />
+    </declare-styleable>
 </resources>

@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        app:elevationTo="@dimen/item_elevation"
-        android:background="@drawable/ripple_background">
+        android:background="@drawable/ripple_background"
+        app:elevationTo="@dimen/item_elevation">
 
         <TextView
             android:id="@+id/text"
@@ -37,6 +37,7 @@
             android:id="@+id/expand_constraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:expand_height="@dimen/expand_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text"
