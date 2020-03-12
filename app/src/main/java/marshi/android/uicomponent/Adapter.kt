@@ -17,15 +17,13 @@ class Adapter(
 
   private val clickPositionLiveData = MutableLiveData<Int>()
   private val animatingState = AnimatingState()
-  private val animationFactory = AnimatorListenerFactory(animatingState)
-  private val expandHeight = context.resources.getDimension(R.dimen.expand_height)
-  private val itemElevation = context.resources.getDimension(R.dimen.item_elevation)
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
 //    val inflater = LayoutInflater.from(parent.context)
 //    val binding = ExpandableItemViewBinding.inflate(inflater, parent, false)
     val itemView =
-      LayoutInflater.from(parent.context).inflate(R.layout.expandable_item_view, parent, false) as ExpandableItemView
+      LayoutInflater.from(parent.context)
+        .inflate(R.layout.expandable_item_view, parent, false) as ExpandableItemView
     return VH(itemView)
   }
 

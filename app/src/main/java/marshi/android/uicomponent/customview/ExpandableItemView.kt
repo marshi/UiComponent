@@ -10,6 +10,7 @@ import marshi.android.uicomponent.AnimatorListenerFactory
 import marshi.android.uicomponent.R
 import marshi.android.uicomponent.animview.ElevationAnimView
 import marshi.android.uicomponent.animview.animateRelatively
+import marshi.android.uicomponent.databinding.ExpandableItemViewBinding
 
 class ExpandableItemView @JvmOverloads constructor(
   context: Context,
@@ -24,21 +25,20 @@ class ExpandableItemView @JvmOverloads constructor(
   override val view
     get() = this
 
-//  private val binding = ExpandableItemViewBinding.bind(this)
+  private val binding by lazy { ExpandableItemViewBinding.bind(this) }
 
   fun expand() {
-    val divider = findViewById<DividerView>(R.id.divider)
-    val expandView = findViewById<ExpandPartConstraintLayout>(R.id.expand_constraint)
+    val divider = binding.divider
     divider.animate(
       1f,
       animationFactory.animatorListener(AnimationType.ShowDivider)
     )
     divider.visibility = View.VISIBLE
-    expandView.animateRelatively(
+    binding.expandConstraint.animateRelatively(
       expandHeight,
       animationFactory.animatorListener(AnimationType.Expand)
     )
-//    binding.expandConstraint
+    val expand = binding.expandConstraint
     animateRelatively(
       itemElevation,
       animationFactory.animatorListener(AnimationType.UpElevation)
@@ -46,13 +46,12 @@ class ExpandableItemView @JvmOverloads constructor(
   }
 
   fun collapse() {
-    val divider = findViewById<DividerView>(R.id.divider)
-    val expandView = findViewById<ExpandPartConstraintLayout>(R.id.expand_constraint)
+    val divider = binding.divider
     divider.animate(
       0f,
       animationFactory.animatorListener(AnimationType.HideDivider)
     )
-    expandView.animateAbsolutely(
+    binding.expandConstraint.animateAbsolutely(
       0,
       animationFactory.animatorListener(AnimationType.Collapse)
     )
