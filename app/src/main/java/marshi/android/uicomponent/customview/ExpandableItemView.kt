@@ -34,6 +34,15 @@ class ExpandableItemView @JvmOverloads constructor(
     }
     expandPartViews.first()
   }
+  private val dividerView by lazy {
+    val dividerViews = binding.rootView
+      .children
+      .filterIsInstance(DividerView::class.java).toList()
+    if (1 < dividerViews.size) {
+      throw IllegalStateException()
+    }
+    dividerViews.firstOrNull()
+  }
 
   init {
     context.withStyledAttributes(attrs, R.styleable.ExpandableItemView, defStyleAttr, 0) {
@@ -42,14 +51,14 @@ class ExpandableItemView @JvmOverloads constructor(
   }
 
   fun expand(animatorListener: Animator.AnimatorListener? = null) {
-    val divider = binding.divider
-    val dividerShowAnimator = divider.absolutelyAnimator(1f)
-    divider.visibility = View.VISIBLE
+    val dividerShowAnimator = dividerView?.absolutelyAnimator(1f)
+    dividerView?.visibility = View.VISIBLE
     val expandAnimator = expandPartView.relativelyAnimator(expandPartView.expandHeight)
     val elevationUpAnimator = relativelyAnimator(elevationTo)
+    val animators = listOfNotNull(dividerShowAnimator, expandAnimator, elevationUpAnimator)
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
-      playTogether(dividerShowAnimator, expandAnimator, elevationUpAnimator)
+      playTogether(animators)
       animatorListener?.let {
         addListener(it)
       }
@@ -57,13 +66,13 @@ class ExpandableItemView @JvmOverloads constructor(
   }
 
   fun collapse(animatorListener: Animator.AnimatorListener? = null) {
-    val divider = binding.divider
-    val dividerHideAnimator = divider.absolutelyAnimator(0f)
+    val dividerHideAnimator = dividerView?.absolutelyAnimator(0f)
     val collapseAnimator = expandPartView.absolutelyAnimator(0)
     val elevationDownAnimator = absolutelyAnimator(0f)
+    val animators = listOfNotNull(dividerHideAnimator, collapseAnimator, elevationDownAnimator)
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
-      playTogether(dividerHideAnimator, collapseAnimator, elevationDownAnimator)
+      playTogether(animators)
       animatorListener?.let {
         addListener(it)
       }
