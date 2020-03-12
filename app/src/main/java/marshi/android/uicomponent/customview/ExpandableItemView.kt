@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import marshi.android.uicomponent.R
 import marshi.android.uicomponent.animview.ElevationAnimView
 import marshi.android.uicomponent.animview.relativelyAnimator
@@ -25,7 +26,13 @@ class ExpandableItemView @JvmOverloads constructor(
 
   private val binding by lazy { ExpandableItemViewBinding.bind(this) }
   private val expandPartView by lazy {
-    binding.expandConstraint
+    val expandPartViews = binding.rootView
+      .children
+      .filterIsInstance(ExpandPartView::class.java).toList()
+    if (expandPartViews.size != 1) {
+      throw IllegalStateException()
+    }
+    expandPartViews.first()
   }
 
   fun expand(animatorListener: Animator.AnimatorListener? = null) {
@@ -57,3 +64,4 @@ class ExpandableItemView @JvmOverloads constructor(
     }.start()
   }
 }
+
