@@ -1,6 +1,5 @@
 package marshi.android.uicomponent
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
@@ -10,17 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import marshi.android.uicomponent.customview.ExpandableItemView
 
 class Adapter(
-  context: Context,
   private val lifecycleOwner: LifecycleOwner,
   private val list: MutableList<NormalItem>
 ) : RecyclerView.Adapter<VH>() {
 
   private val clickPositionLiveData = MutableLiveData<Int>()
-  private val animatingState = AnimatingState()
+  private val animatorListener = ExpandableItemAnimatorListener()
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-//    val inflater = LayoutInflater.from(parent.context)
-//    val binding = ExpandableItemViewBinding.inflate(inflater, parent, false)
     val itemView =
       LayoutInflater.from(parent.context)
         .inflate(R.layout.expandable_item_view, parent, false) as ExpandableItemView
@@ -37,14 +33,14 @@ class Adapter(
     clickPositionLiveData.observe(lifecycleOwner, Observer { clickPosition ->
       if (!item.isOpened && position == clickPosition) {
         item.isOpened = true
-        itemView.expand()
+        itemView.expand(animatorListener)
       } else if (item.isOpened) {
         item.isOpened = false
-        itemView.collapse()
+        itemView.collapse(animatorListener)
       }
     })
     itemView.setOnClickListener {
-      if (animatingState.isEnableAnimating() || animatingState.isDisableAnimating()) {
+      if (animatorListener.isAnimating) {
         return@setOnClickListener
       }
       clickPositionLiveData.value = position
