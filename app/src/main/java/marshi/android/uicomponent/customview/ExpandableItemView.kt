@@ -27,13 +27,13 @@ class ExpandableItemView @JvmOverloads constructor(
 
   fun expand(animatorListener: Animator.AnimatorListener? = null) {
     val divider = binding.divider
-    val dividerAnimator = divider.animateAbsolutely(1f)
+    val dividerShowAnimator = divider.animateAbsolutely(1f)
     divider.visibility = View.VISIBLE
     val expandAnimator = binding.expandConstraint.animateRelatively(expandHeight)
-    val elevationAnimator = animateRelatively(itemElevation)
+    val elevationUpAnimator = animateRelatively(itemElevation)
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
-      playTogether(dividerAnimator, expandAnimator, elevationAnimator)
+      playTogether(dividerShowAnimator, expandAnimator, elevationUpAnimator)
       animatorListener?.let {
         addListener(it)
       }
@@ -42,12 +42,12 @@ class ExpandableItemView @JvmOverloads constructor(
 
   fun collapse(animatorListener: Animator.AnimatorListener? = null) {
     val divider = binding.divider
-    val dividerAnimator = divider.animateAbsolutely(0f)
+    val dividerHideAnimator = divider.animateAbsolutely(0f)
     val collapseAnimator = binding.expandConstraint.animateAbsolutely(0)
-    val elevationAnimator = animateAbsolutely(0f)
+    val elevationDownAnimator = animateAbsolutely(0f)
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
-      playTogether(dividerAnimator, collapseAnimator, elevationAnimator)
+      playTogether(dividerHideAnimator, collapseAnimator, elevationDownAnimator)
       animatorListener?.let {
         addListener(it)
       }
