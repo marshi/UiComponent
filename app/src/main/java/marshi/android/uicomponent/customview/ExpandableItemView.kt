@@ -7,9 +7,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import marshi.android.uicomponent.R
 import marshi.android.uicomponent.animview.ElevationAnimView
-import marshi.android.uicomponent.animview.animateRelatively
+import marshi.android.uicomponent.animview.relativelyAnimator
 import marshi.android.uicomponent.databinding.ExpandableItemViewBinding
 
 class ExpandableItemView @JvmOverloads constructor(
@@ -24,13 +25,19 @@ class ExpandableItemView @JvmOverloads constructor(
     get() = this
 
   private val binding by lazy { ExpandableItemViewBinding.bind(this) }
+  private val expandPartView by lazy {
+    binding.rootView
+      .children
+      .filterIsInstance(ExpandPartView::class.java).firstOrNull()
+      ?: throw IllegalStateException()
+  }
 
   fun expand(animatorListener: Animator.AnimatorListener? = null) {
     val divider = binding.divider
-    val dividerShowAnimator = divider.animateAbsolutely(1f)
+    val dividerShowAnimator = divider.absolutelyAnimator(1f)
     divider.visibility = View.VISIBLE
-    val expandAnimator = binding.expandConstraint.animateRelatively(expandHeight)
-    val elevationUpAnimator = animateRelatively(itemElevation)
+    val expandAnimator = expandPartView.relativelyAnimator(expandHeight)
+    val elevationUpAnimator = relativelyAnimator(itemElevation)
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
       playTogether(dividerShowAnimator, expandAnimator, elevationUpAnimator)
@@ -42,9 +49,9 @@ class ExpandableItemView @JvmOverloads constructor(
 
   fun collapse(animatorListener: Animator.AnimatorListener? = null) {
     val divider = binding.divider
-    val dividerHideAnimator = divider.animateAbsolutely(0f)
-    val collapseAnimator = binding.expandConstraint.animateAbsolutely(0)
-    val elevationDownAnimator = animateAbsolutely(0f)
+    val dividerHideAnimator = divider.absolutelyAnimator(0f)
+    val collapseAnimator = expandPartView.absolutelyAnimator(0)
+    val elevationDownAnimator = absolutelyAnimator(0f)
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
       playTogether(dividerHideAnimator, collapseAnimator, elevationDownAnimator)

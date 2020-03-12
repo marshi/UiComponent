@@ -8,7 +8,7 @@ import marshi.android.uicomponent.AnimationDuration
 interface ElevationAnimView {
   val view: View
 
-  fun animateAbsolutely(
+  fun absolutelyAnimator(
     elevation: Float
   ) : Animator{
     return ValueAnimator.ofFloat(view.elevation, elevation).apply {
@@ -20,9 +20,9 @@ interface ElevationAnimView {
   }
 }
 
-fun ElevationAnimView.animateRelatively(
+fun ElevationAnimView.relativelyAnimator(
   elevation: Float
 ) : Animator{
   val newElevation = (view.elevation + elevation)
-  return animateAbsolutely(newElevation)
+  return absolutelyAnimator(newElevation)
 }

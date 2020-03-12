@@ -11,7 +11,7 @@ import kotlin.math.min
 interface AlphaAnimView {
   val view: View
 
-  fun animateAbsolutely(
+  fun absolutelyAnimator(
     alpha: Float
   ): Animator {
     return ValueAnimator.ofFloat(view.alpha, alpha).apply {
@@ -23,9 +23,9 @@ interface AlphaAnimView {
   }
 }
 
-fun AlphaAnimView.animateRelatively(
+fun AlphaAnimView.relativelyAnimator(
   @FloatRange(from = 0.0, to = 1.0) alpha: Float
 ): Animator {
   val newHeight = min(max(0f, view.height + alpha), 1f)
-  return animateAbsolutely(newHeight)
+  return absolutelyAnimator(newHeight)
 }
