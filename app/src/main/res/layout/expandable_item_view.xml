@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <marshi.android.uicomponent.customview.ExpandableItemConstraintLayout
+    <marshi.android.uicomponent.customview.ExpandableItemView
         android:id="@+id/root_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,5 +48,5 @@
                 android:text="expand" />
         </marshi.android.uicomponent.customview.ExpandPartConstraintLayout>
 
-    </marshi.android.uicomponent.customview.ExpandableItemConstraintLayout>
+    </marshi.android.uicomponent.customview.ExpandableItemView>
 </layout>

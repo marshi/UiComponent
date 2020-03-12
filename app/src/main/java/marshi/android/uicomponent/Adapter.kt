@@ -2,14 +2,12 @@ package marshi.android.uicomponent
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import marshi.android.uicomponent.animview.animateRelatively
-import marshi.android.uicomponent.databinding.ExpandableItemViewBinding
+import marshi.android.uicomponent.customview.ExpandableItemView
 
 class Adapter(
   context: Context,
@@ -24,67 +22,36 @@ class Adapter(
   private val itemElevation = context.resources.getDimension(R.dimen.item_elevation)
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-    val inflater = LayoutInflater.from(parent.context)
-    val binding = ExpandableItemViewBinding.inflate(inflater, parent, false)
-    return VH(binding)
+//    val inflater = LayoutInflater.from(parent.context)
+//    val binding = ExpandableItemViewBinding.inflate(inflater, parent, false)
+    val itemView =
+      LayoutInflater.from(parent.context).inflate(R.layout.expandable_item_view, parent, false) as ExpandableItemView
+    return VH(itemView)
   }
 
   override fun getItemCount() = list.size
 
   override fun onBindViewHolder(holder: VH, position: Int) {
-    val itemView = holder.binding
+    val itemView = holder.view
     val item = list[position]
-    holder.binding.text.text = item.text
+//    holder.binding.text.text = item.text
 
     clickPositionLiveData.observe(lifecycleOwner, Observer { clickPosition ->
       if (!item.isOpened && position == clickPosition) {
         item.isOpened = true
-        expand(itemView)
+        itemView.expand()
       } else if (item.isOpened) {
         item.isOpened = false
-        collapse(itemView)
+        itemView.collapse()
       }
     })
-    itemView.root.setOnClickListener {
+    itemView.setOnClickListener {
       if (animatingState.isEnableAnimating() || animatingState.isDisableAnimating()) {
         return@setOnClickListener
       }
       clickPositionLiveData.value = position
     }
   }
-
-  private fun expand(binding: ExpandableItemViewBinding) {
-    binding.divider.animate(
-      1f,
-      animationFactory.animatorListener(AnimationType.ShowDivider)
-    )
-    binding.divider.visibility = View.VISIBLE
-    binding.rootView.animateRelatively(
-      expandHeight,
-      animationFactory.animatorListener(AnimationType.Expand)
-    )
-    binding.expandConstraint.animateAbsolutely(
-      itemElevation.toInt(),
-      animationFactory.animatorListener(AnimationType.UpElevation)
-    )
-  }
-
-  private fun collapse(
-    binding: ExpandableItemViewBinding
-  ) {
-    binding.divider.animate(
-      0f,
-      animationFactory.animatorListener(AnimationType.HideDivider)
-    )
-    binding.expandConstraint.animateAbsolutely(
-      0,
-      animationFactory.animatorListener(AnimationType.Collapse)
-    )
-    binding.rootView.animateAbsolutely(
-      0f,
-      animationFactory.animatorListener(AnimationType.DownElevation)
-    )
-  }
 }
 
-class VH(val binding: ExpandableItemViewBinding) : RecyclerView.ViewHolder(binding.root)
+class VH(val view: ExpandableItemView) : RecyclerView.ViewHolder(view)
