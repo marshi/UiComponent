@@ -8,4 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ExpandableItemUpperView">
+        <item name="android:background">@drawable/ripple_background</item>
+    </style>
 </resources>
