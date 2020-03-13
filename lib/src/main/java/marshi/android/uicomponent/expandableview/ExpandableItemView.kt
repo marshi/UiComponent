@@ -12,7 +12,6 @@ import androidx.core.content.withStyledAttributes
 import androidx.core.view.children
 import marshi.android.uicomponent.R
 import marshi.android.uicomponent.animview.ElevationAnimView
-import marshi.android.uicomponent.animview.relativeAnimator
 
 class ExpandableItemView @JvmOverloads constructor(
   context: Context,
