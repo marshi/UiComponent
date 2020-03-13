@@ -19,12 +19,12 @@ interface HeightAnimView {
       }
     }
   }
-}
 
-fun HeightAnimView.relativeAnimator(
-  height: Float,
-  duration: Long
-): Animator {
-  val newHeight = (view.height + height).toInt()
-  return absoluteAnimator(newHeight, duration)
+  fun relativeAnimator(
+    height: Float,
+    duration: Long
+  ): Animator {
+    val newHeight = (view.height + height).toInt()
+    return absoluteAnimator(newHeight, duration)
+  }
 }

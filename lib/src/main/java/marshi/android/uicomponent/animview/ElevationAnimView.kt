@@ -10,7 +10,7 @@ interface ElevationAnimView {
   fun absoluteAnimator(
     elevation: Float,
     duration: Long
-  ) : Animator{
+  ): Animator {
     return ValueAnimator.ofFloat(view.elevation, elevation).apply {
       this.duration = duration
       addUpdateListener {
@@ -18,12 +18,12 @@ interface ElevationAnimView {
       }
     }
   }
-}
 
-fun ElevationAnimView.relativeAnimator(
-  elevation: Float,
-  duration: Long
-) : Animator{
-  val newElevation = (view.elevation + elevation)
-  return absoluteAnimator(newElevation, duration)
+  fun relativeAnimator(
+    elevation: Float,
+    duration: Long
+  ): Animator {
+    val newElevation = (view.elevation + elevation)
+    return absoluteAnimator(newElevation, duration)
+  }
 }

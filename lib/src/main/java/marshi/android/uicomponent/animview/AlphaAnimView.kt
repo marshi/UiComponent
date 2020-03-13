@@ -21,12 +21,12 @@ interface AlphaAnimView {
       }
     }
   }
-}
 
-fun AlphaAnimView.relativeAnimator(
-  @FloatRange(from = 0.0, to = 1.0) alpha: Float,
-  duration: Long
-): Animator {
-  val newHeight = min(max(0f, view.height + alpha), 1f)
-  return absoluteAnimator(newHeight, duration)
+  fun relativeAnimator(
+    @FloatRange(from = 0.0, to = 1.0) alpha: Float,
+    duration: Long
+  ): Animator {
+    val newHeight = min(max(0f, view.height + alpha), 1f)
+    return absoluteAnimator(newHeight, duration)
+  }
 }
