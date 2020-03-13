@@ -8,7 +8,7 @@ import marshi.android.uicomponent.AnimationDuration
 interface HeightAnimView {
   val view: View
 
-  fun absolutelyAnimator(height: Int): Animator {
+  fun absoluteAnimator(height: Int): Animator {
     return ValueAnimator.ofInt(view.height, height).apply {
       duration = AnimationDuration.value
       addUpdateListener {
@@ -19,9 +19,9 @@ interface HeightAnimView {
   }
 }
 
-fun HeightAnimView.relativelyAnimator(
+fun HeightAnimView.relativeAnimator(
   height: Float
 ): Animator {
   val newHeight = (view.height + height).toInt()
-  return absolutelyAnimator(newHeight)
+  return absoluteAnimator(newHeight)
 }

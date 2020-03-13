@@ -12,7 +12,7 @@ import androidx.core.content.withStyledAttributes
 import androidx.core.view.children
 import marshi.android.uicomponent.R
 import marshi.android.uicomponent.animview.ElevationAnimView
-import marshi.android.uicomponent.animview.relativelyAnimator
+import marshi.android.uicomponent.animview.relativeAnimator
 import marshi.android.uicomponent.databinding.ExpandableItemViewBinding
 
 class ExpandableItemView @JvmOverloads constructor(
@@ -51,10 +51,10 @@ class ExpandableItemView @JvmOverloads constructor(
   }
 
   fun expand(animatorListener: Animator.AnimatorListener? = null) {
-    val dividerShowAnimator = dividerView?.absolutelyAnimator(1f)
+    val dividerShowAnimator = dividerView?.absoluteAnimator(1f)
     dividerView?.visibility = View.VISIBLE
-    val expandAnimator = expandPartView.relativelyAnimator(expandPartView.expandHeight)
-    val elevationUpAnimator = relativelyAnimator(elevationTo)
+    val expandAnimator = expandPartView.relativeAnimator(expandPartView.expandHeight)
+    val elevationUpAnimator = relativeAnimator(elevationTo)
     val animators = listOfNotNull(dividerShowAnimator, expandAnimator, elevationUpAnimator)
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
@@ -66,9 +66,9 @@ class ExpandableItemView @JvmOverloads constructor(
   }
 
   fun collapse(animatorListener: Animator.AnimatorListener? = null) {
-    val dividerHideAnimator = dividerView?.absolutelyAnimator(0f)
-    val collapseAnimator = expandPartView.absolutelyAnimator(0)
-    val elevationDownAnimator = absolutelyAnimator(0f)
+    val dividerHideAnimator = dividerView?.absoluteAnimator(0f)
+    val collapseAnimator = expandPartView.absoluteAnimator(0)
+    val elevationDownAnimator = absoluteAnimator(0f)
     val animators = listOfNotNull(dividerHideAnimator, collapseAnimator, elevationDownAnimator)
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
