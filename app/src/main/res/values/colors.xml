@@ -8,5 +8,5 @@
     <color name="gray">#A9A9A9</color>
     <color name="white_gray">#E5E5E5</color>
 
-    <color name="item_background">@color/white</color>
+    <color name="item_background">@color/uicmpnnt_white</color>
 </resources>

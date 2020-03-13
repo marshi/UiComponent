@@ -1,7 +1,8 @@
 <resources>
 
     <style name="ExpandableItemUpperView">
-        <item name="android:background">@drawable/expandable_item_upper_view_ripple_background
+        <item name="android:background">
+            @drawable/expandable_item_upper_view_ripple_background
         </item>
     </style>
 
