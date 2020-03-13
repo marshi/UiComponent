@@ -1,4 +1,4 @@
-package marshi.android.uicomponent
+package marshi.android.shard
 
 class NormalItem(
   val text: String = "text",

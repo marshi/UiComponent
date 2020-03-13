@@ -1,4 +1,4 @@
-package marshi.android.uicomponent
+package marshi.android.shard
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import marshi.android.uicomponent.expandableview.ExpandableItemView
+import marshi.android.shard.expandableview.ExpandableItemView
+import marshi.android.uicomponent.R
 
 class Adapter(
   private val lifecycleOwner: LifecycleOwner,
@@ -14,7 +15,8 @@ class Adapter(
 ) : RecyclerView.Adapter<VH>() {
 
   private val clickPositionLiveData = MutableLiveData<Int>()
-  private val animatorListener = ExpandableItemAnimatorListener()
+  private val animatorListener =
+    ExpandableItemAnimatorListener()
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
     val itemView =

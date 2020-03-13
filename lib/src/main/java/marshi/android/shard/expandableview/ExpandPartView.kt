@@ -1,18 +1,19 @@
-package marshi.android.uicomponent.expandableview
+package marshi.android.shard.expandableview
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.getDimensionOrThrow
 import androidx.core.content.withStyledAttributes
+import marshi.android.shard.animview.HeightAnimView
 import marshi.android.uicomponent.R
-import marshi.android.uicomponent.animview.HeightAnimView
 
 class ExpandPartView @JvmOverloads constructor(
   context: Context,
   attrs: AttributeSet? = null,
   defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr), HeightAnimView {
+) : ConstraintLayout(context, attrs, defStyleAttr),
+  HeightAnimView {
   override val view
     get() = this
 

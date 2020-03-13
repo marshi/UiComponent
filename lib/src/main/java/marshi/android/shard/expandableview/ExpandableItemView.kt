@@ -1,4 +1,4 @@
-package marshi.android.uicomponent.expandableview
+package marshi.android.shard.expandableview
 
 import android.animation.Animator
 import android.animation.AnimatorSet
@@ -10,14 +10,15 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.getDimensionOrThrow
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.children
+import marshi.android.shard.animview.ElevationAnimView
 import marshi.android.uicomponent.R
-import marshi.android.uicomponent.animview.ElevationAnimView
 
 class ExpandableItemView @JvmOverloads constructor(
   context: Context,
   attrs: AttributeSet? = null,
   defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr), ElevationAnimView {
+) : ConstraintLayout(context, attrs, defStyleAttr),
+  ElevationAnimView {
   override val view
     get() = this
 
@@ -49,7 +50,9 @@ class ExpandableItemView @JvmOverloads constructor(
   init {
     context.withStyledAttributes(attrs, R.styleable.ExpandableItemView, defStyleAttr, 0) {
       elevationTo = getDimensionOrThrow(R.styleable.ExpandableItemView_elevationTo)
-      duration = getInt(R.styleable.ExpandableItemView_duration, DEFAULT_DURATION).toLong()
+      duration = getInt(R.styleable.ExpandableItemView_duration,
+        DEFAULT_DURATION
+      ).toLong()
     }
   }
 
