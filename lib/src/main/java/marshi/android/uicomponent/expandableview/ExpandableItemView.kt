@@ -13,7 +13,6 @@ import androidx.core.view.children
 import marshi.android.uicomponent.R
 import marshi.android.uicomponent.animview.ElevationAnimView
 import marshi.android.uicomponent.animview.relativeAnimator
-import marshi.android.uicomponent.databinding.ExpandableItemViewBinding
 
 class ExpandableItemView @JvmOverloads constructor(
   context: Context,
@@ -24,9 +23,8 @@ class ExpandableItemView @JvmOverloads constructor(
     get() = this
 
   private var elevationTo: Float = 0f
-  private val binding by lazy { ExpandableItemViewBinding.bind(this) }
   private val expandPartView by lazy {
-    val expandPartViews = binding.rootView
+    val expandPartViews = this
       .children
       .filterIsInstance(ExpandPartView::class.java).toList()
     if (expandPartViews.size != 1) {
@@ -35,7 +33,7 @@ class ExpandableItemView @JvmOverloads constructor(
     expandPartViews.first()
   }
   private val dividerView by lazy {
-    val dividerViews = binding.rootView
+    val dividerViews = this
       .children
       .filterIsInstance(DividerView::class.java).toList()
     if (1 < dividerViews.size) {
