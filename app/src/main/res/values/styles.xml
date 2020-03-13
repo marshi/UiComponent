@@ -9,6 +9,10 @@
     </style>
 
     <style name="ExpandableItemUpperView">
-        <item name="android:background">@drawable/ripple_background</item>
+        <item name="android:background">@drawable/expandable_item_upper_view_ripple_background</item>
+    </style>
+
+    <style name="ExpandableItemDivider">
+        <item name="android:background">@drawable/expandable_item_divider_shape</item>
     </style>
 </resources>
