@@ -1,4 +1,4 @@
-package marshi.android.shard
+package dev.marshi.android.shard
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import marshi.android.shard.expandableview.ExpandableItemView
+import dev.marshi.android.shard.expandableview.ExpandableItemView
 
 class Adapter(
   private val lifecycleOwner: LifecycleOwner,

@@ -1,4 +1,4 @@
-package marshi.android.uicomponent
+package dev.marshi.android.uicomponent
 
 import org.junit.Test
 

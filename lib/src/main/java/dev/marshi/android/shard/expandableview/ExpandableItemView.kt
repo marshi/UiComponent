@@ -1,4 +1,4 @@
-package marshi.android.shard.expandableview
+package dev.marshi.android.shard.expandableview
 
 import android.animation.Animator
 import android.animation.AnimatorSet
@@ -10,8 +10,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.getDimensionOrThrow
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.children
-import marshi.android.shard.animview.ElevationAnimView
-import marshi.android.uicomponent.R
+import dev.marshi.android.shard.animview.ElevationAnimView
+import dev.marshi.android.uicomponent.R
 
 class ExpandableItemView @JvmOverloads constructor(
   context: Context,

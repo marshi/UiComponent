@@ -1,4 +1,4 @@
-package marshi.android.shard.animview
+package dev.marshi.android.shard.animview
 
 import android.animation.Animator
 import android.animation.ValueAnimator

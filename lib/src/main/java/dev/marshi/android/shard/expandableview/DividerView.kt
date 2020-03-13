@@ -1,9 +1,9 @@
-package marshi.android.shard.expandableview
+package dev.marshi.android.shard.expandableview
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import marshi.android.shard.animview.AlphaAnimView
+import dev.marshi.android.shard.animview.AlphaAnimView
 
 class DividerView @JvmOverloads constructor(
   context: Context,

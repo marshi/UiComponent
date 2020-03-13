@@ -1,12 +1,12 @@
-package marshi.android.shard.expandableview
+package dev.marshi.android.shard.expandableview
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.getDimensionOrThrow
 import androidx.core.content.withStyledAttributes
-import marshi.android.shard.animview.HeightAnimView
-import marshi.android.uicomponent.R
+import dev.marshi.android.shard.animview.HeightAnimView
+import dev.marshi.android.uicomponent.R
 
 class ExpandPartView @JvmOverloads constructor(
   context: Context,

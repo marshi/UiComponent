@@ -1,9 +1,9 @@
-package marshi.android.shard
+package dev.marshi.android.shard
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import marshi.android.shard.databinding.ActivityMainBinding
+import dev.marshi.android.shard.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

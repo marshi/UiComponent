@@ -1,4 +1,4 @@
-package marshi.android.uicomponent
+package dev.marshi.android.uicomponent
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("marshi.android.uicomponent", appContext.packageName)
+        assertEquals("dev.marshi.android.uicomponent", appContext.packageName)
     }
 }

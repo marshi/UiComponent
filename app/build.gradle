@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "marshi.android.shard"
+        applicationId "dev.marshi.android.shard"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
