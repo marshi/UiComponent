@@ -26,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <marshi.android.uicomponent.expandableview.DividerView
+        <marshi.android.shard.expandableview.DividerView
             android:id="@+id/divider"
             style="@style/ExpandableItemDivider"
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text" />
 
-        <marshi.android.uicomponent.expandableview.ExpandPartView
+        <marshi.android.shard.expandableview.ExpandPartView
             android:id="@+id/expand_constraint"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="expand" />
-        </marshi.android.uicomponent.expandableview.ExpandPartView>
+        </marshi.android.shard.expandableview.ExpandPartView>
 
     </marshi.android.shard.expandableview.ExpandableItemView>
 </layout>

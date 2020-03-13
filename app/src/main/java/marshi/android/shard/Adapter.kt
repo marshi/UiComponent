@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import marshi.android.shard.expandableview.ExpandableItemView
-import marshi.android.uicomponent.R
 
 class Adapter(
   private val lifecycleOwner: LifecycleOwner,

@@ -3,8 +3,7 @@ package marshi.android.shard
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import marshi.android.uicomponent.R
-import marshi.android.uicomponent.databinding.ActivityMainBinding
+import marshi.android.shard.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
