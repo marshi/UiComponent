@@ -1,4 +1,4 @@
-package marshi.android.uicomponent.customview
+package marshi.android.uicomponent.expandableview
 
 import android.content.Context
 import android.util.AttributeSet

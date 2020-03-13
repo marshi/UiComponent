@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import marshi.android.uicomponent.customview.ExpandableItemView
+import marshi.android.uicomponent.expandableview.ExpandableItemView
 
 class Adapter(
   private val lifecycleOwner: LifecycleOwner,

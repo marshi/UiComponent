@@ -1,4 +1,4 @@
-package marshi.android.uicomponent.customview
+package marshi.android.uicomponent.expandableview
 
 import android.animation.Animator
 import android.animation.AnimatorSet
