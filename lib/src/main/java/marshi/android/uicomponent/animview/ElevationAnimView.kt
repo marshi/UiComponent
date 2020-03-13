@@ -3,16 +3,16 @@ package marshi.android.uicomponent.animview
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.view.View
-import marshi.android.uicomponent.AnimationDuration
 
 interface ElevationAnimView {
   val view: View
 
   fun absoluteAnimator(
-    elevation: Float
+    elevation: Float,
+    duration: Long
   ) : Animator{
     return ValueAnimator.ofFloat(view.elevation, elevation).apply {
-      duration = AnimationDuration.value
+      this.duration = duration
       addUpdateListener {
         view.elevation = it.animatedValue as Float
       }
@@ -21,8 +21,9 @@ interface ElevationAnimView {
 }
 
 fun ElevationAnimView.relativeAnimator(
-  elevation: Float
+  elevation: Float,
+  duration: Long
 ) : Animator{
   val newElevation = (view.elevation + elevation)
-  return absoluteAnimator(newElevation)
+  return absoluteAnimator(newElevation, duration)
 }

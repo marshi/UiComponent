@@ -1,14 +1,11 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="ExpandableItemUpperView">
+        <item name="android:background">@drawable/expandable_item_upper_view_ripple_background
+        </item>
     </style>
 
-    <style name="ExpandableItemUpperView">
-        <item name="android:background">@drawable/expandable_item_upper_view_ripple_background</item>
+    <style name="ExpandableItemDivider">
+        <item name="android:background">@drawable/expandable_item_divider_shape</item>
     </style>
 </resources>

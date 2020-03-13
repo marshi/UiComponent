@@ -3,14 +3,16 @@ package marshi.android.uicomponent.animview
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.view.View
-import marshi.android.uicomponent.AnimationDuration
 
 interface HeightAnimView {
   val view: View
 
-  fun absoluteAnimator(height: Int): Animator {
+  fun absoluteAnimator(
+    height: Int,
+    duration: Long
+  ): Animator {
     return ValueAnimator.ofInt(view.height, height).apply {
-      duration = AnimationDuration.value
+      this.duration = duration
       addUpdateListener {
         view.layoutParams.height = it.animatedValue as Int
         view.requestLayout()
@@ -20,8 +22,9 @@ interface HeightAnimView {
 }
 
 fun HeightAnimView.relativeAnimator(
-  height: Float
+  height: Float,
+  duration: Long
 ): Animator {
   val newHeight = (view.height + height).toInt()
-  return absoluteAnimator(newHeight)
+  return absoluteAnimator(newHeight, duration)
 }

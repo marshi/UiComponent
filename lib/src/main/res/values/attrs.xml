@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="ExpandableItemView">
         <attr name="elevationTo" format="dimension" />
+        <attr name="duration" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="ExpandPartView">

@@ -22,7 +22,12 @@ class ExpandableItemView @JvmOverloads constructor(
   override val view
     get() = this
 
+  companion object {
+    private const val DEFAULT_DURATION = 200
+  }
+
   private var elevationTo: Float = 0f
+  private var duration: Long = 0L
   private val expandPartView by lazy {
     val expandPartViews = this
       .children
@@ -45,14 +50,15 @@ class ExpandableItemView @JvmOverloads constructor(
   init {
     context.withStyledAttributes(attrs, R.styleable.ExpandableItemView, defStyleAttr, 0) {
       elevationTo = getDimensionOrThrow(R.styleable.ExpandableItemView_elevationTo)
+      duration = getInt(R.styleable.ExpandableItemView_duration, DEFAULT_DURATION).toLong()
     }
   }
 
   fun expand(animatorListener: Animator.AnimatorListener? = null) {
-    val dividerShowAnimator = dividerView?.absoluteAnimator(1f)
+    val dividerShowAnimator = dividerView?.absoluteAnimator(1f, duration)
     dividerView?.visibility = View.VISIBLE
-    val expandAnimator = expandPartView.relativeAnimator(expandPartView.expandHeight)
-    val elevationUpAnimator = relativeAnimator(elevationTo)
+    val expandAnimator = expandPartView.relativeAnimator(expandPartView.expandHeight, duration)
+    val elevationUpAnimator = relativeAnimator(elevationTo, duration)
     val animators = listOfNotNull(dividerShowAnimator, expandAnimator, elevationUpAnimator)
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
@@ -64,9 +70,9 @@ class ExpandableItemView @JvmOverloads constructor(
   }
 
   fun collapse(animatorListener: Animator.AnimatorListener? = null) {
-    val dividerHideAnimator = dividerView?.absoluteAnimator(0f)
-    val collapseAnimator = expandPartView.absoluteAnimator(0)
-    val elevationDownAnimator = absoluteAnimator(0f)
+    val dividerHideAnimator = dividerView?.absoluteAnimator(0f, duration)
+    val collapseAnimator = expandPartView.absoluteAnimator(0, duration)
+    val elevationDownAnimator = absoluteAnimator(0f, duration)
     val animators = listOfNotNull(dividerHideAnimator, collapseAnimator, elevationDownAnimator)
     AnimatorSet().apply {
       interpolator = AccelerateDecelerateInterpolator()
