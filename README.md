@@ -34,12 +34,6 @@ Required.
 Child view of ExpandableItemView, and parent view of views that expand and collapse.
 
 #### custom attribute
-* app:expand_height
-
-height after expanded.
-
-required.
-
 
 | custom attribute | optional or required | description |
 | ---- | ---- |  ---- | 
