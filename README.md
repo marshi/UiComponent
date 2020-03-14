@@ -13,7 +13,11 @@ This is google phone app like ui.
 
 ### custom attribute
 
-* app:duration - expand and collapse animation duration.
+* app:duration
+
+expand and collapse animation duration. optional.
+
+default 200ms.
 
 ### DividerView
 
@@ -32,7 +36,11 @@ Required.
 Child view of ExpandableItemView, and parent view of views that expand and collapse.
 
 #### custom attribute
-* app:expand_height - height after expanded.
+* app:expand_height
+
+height after expanded.
+
+required.
 
 ### How to use 
 ```xml
