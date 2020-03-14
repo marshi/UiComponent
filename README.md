@@ -9,7 +9,7 @@ Parent view of DividerView and ExpandPartView.
 
 This is google phone app like ui.
 
-<img src="https://user-images.githubusercontent.com/1423942/76684762-feb6d300-6651-11ea-88b1-b97478ff19e7.gif" width="200" />
+<img src="https://user-images.githubusercontent.com/1423942/76684762-feb6d300-6651-11ea-88b1-b97478ff19e7.gif" width="300" />
 
 ### custom attribute
 
