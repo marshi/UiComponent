@@ -7,7 +7,7 @@ Android ui component library.
 
 Parent view of DividerView and ExpandPartView.
 
-This is google phone app like ui.
+This is a UI component like google phone app history page.
 
 <img src="https://user-images.githubusercontent.com/1423942/76684762-feb6d300-6651-11ea-88b1-b97478ff19e7.gif" width="300" />
 
